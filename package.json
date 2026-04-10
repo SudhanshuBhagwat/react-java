@@ -1,0 +1,20 @@
+{
+  "name": "react-java",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "build": "javac -d ./bin native/HelloWorld.java",
+    "dev": "ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "java": "^0.18.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^6.0.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.2"
+  }
+}
