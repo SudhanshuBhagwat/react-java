@@ -1,16 +1,16 @@
-import java from "java";
+import { appendClasspath, importClass, ensureJvm } from "java-bridge";
 import path from "path";
 
-java.classpath.push(path.join(__dirname, "..", "bin"));
-
 async function run() {
+  ensureJvm();
+  appendClasspath(path.join(__dirname, "..", "bin", "react-java-1.0-SNAPSHOT.jar"))
+
   try {
-    const mainArgs = java.newArray("java.lang.String", []);
-    java.callStaticMethodSync("HelloWorld", "main", mainArgs);
+    const App = importClass("com.bhagwat.App");
+    const AppInstance = await App.newInstanceAsync();
+    await AppInstance.run();
   } catch(err) {
-    console.error({ err });
-  } finally {
-    process.exit(0);
+    console.error(err);
   }
 }
 

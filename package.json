@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build": "javac -d ./bin native/HelloWorld.java",
+    "build-native": "cd native && mvn clean install -Ddir=lib",
     "dev": "ts-node src/index.ts"
   },
   "keywords": [],
@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "java": "^0.18.0",
+    "java-bridge": "^2.8.1",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.2"
   },
