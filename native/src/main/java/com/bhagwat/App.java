@@ -11,7 +11,7 @@ public class App {
     while(!WindowShouldClose()) {
       BeginDrawing();
       ClearBackground(BLACK);
-      DrawText("Hello World", 190, 200, 20, WHITE);
+      DrawRectangle(0, 0, 100, 100, VIOLET);
       EndDrawing();
     }
 
