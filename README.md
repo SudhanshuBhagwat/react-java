@@ -20,8 +20,8 @@ Node.js game loop (setInterval ~16ms)
 
 ### Phase 1 — Java API refactor
 
-- [ ] Remove the self-contained game loop from `App.run()`
-- [ ] Add `init(int width, int height, String title)` — calls `InitWindow` + `SetTargetFPS`
+- [x] Remove the self-contained game loop from `App.run()`
+- [x] Add `init(int width, int height, String title)` — calls `InitWindow` + `SetTargetFPS`
 - [ ] Add `tick()` — calls `BeginDrawing`, flushes queued draw commands, calls `EndDrawing`, returns `WindowShouldClose()`
 - [ ] Add event polling methods:
   - `isKeyPressed(int key)`
