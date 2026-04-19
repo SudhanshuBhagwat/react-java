@@ -35,10 +35,10 @@ Node.js game loop (setInterval ~16ms)
 
 ### Phase 2 — java-bridge bootstrap
 
-- [ ] Import `java-bridge` in `index.jsx`
-- [ ] Load the compiled JAR and instantiate `App`
-- [ ] Call `app.init(800, 450, "Demo")` on startup
-- [ ] Verify an empty Jaylib window opens from Node.js
+- [x] Import `java-bridge` in `index.jsx`
+- [x] Load the compiled JAR and instantiate `App`
+- [x] Call `app.init(800, 450, "Demo")` on startup
+- [x] Verify an empty Jaylib window opens from Node.js
 
 ### Phase 3 — Node.js game loop
 
