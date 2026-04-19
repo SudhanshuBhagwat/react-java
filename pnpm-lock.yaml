@@ -31,6 +31,9 @@ devDependencies:
   '@babel/core':
     specifier: ^7.29.0
     version: 7.29.0
+  '@babel/plugin-transform-modules-commonjs':
+    specifier: ^7.28.6
+    version: 7.28.6(@babel/core@7.29.0)
   '@babel/plugin-transform-react-jsx':
     specifier: ^7.28.6
     version: 7.28.6(@babel/core@7.29.0)
@@ -202,6 +205,19 @@ packages:
     dependencies:
       '@babel/core': 7.29.0
       '@babel/helper-plugin-utils': 7.28.6
+    dev: true
+
+  /@babel/plugin-transform-modules-commonjs@7.28.6(@babel/core@7.29.0):
+    resolution: {integrity: sha512-jppVbf8IV9iWWwWTQIxJMAJCWBuuKx71475wHwYytrRGQ2CWiDvYlADQno3tcYpS/T2UUWFQp3nVtYfK/YBQrA==}
+    engines: {node: '>=6.9.0'}
+    peerDependencies:
+      '@babel/core': ^7.0.0-0
+    dependencies:
+      '@babel/core': 7.29.0
+      '@babel/helper-module-transforms': 7.28.6(@babel/core@7.29.0)
+      '@babel/helper-plugin-utils': 7.28.6
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /@babel/plugin-transform-react-jsx@7.28.6(@babel/core@7.29.0):

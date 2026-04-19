@@ -5,10 +5,12 @@ import static com.raylib.Raylib.*;
 
 public class App {
 
-  public void run() {
+  public void init() {
     InitWindow(800, 450, "Demo");
     SetTargetFPS(60);
+  }
 
+  public void run() {
     while(!WindowShouldClose()) {
       BeginDrawing();
       ClearBackground(BLACK);
@@ -16,6 +18,10 @@ public class App {
       EndDrawing();
     }
 
+    close();
+  }
+
+  public void close() {
     CloseWindow();
   }
 }

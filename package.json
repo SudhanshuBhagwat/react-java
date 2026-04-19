@@ -4,7 +4,7 @@
   "description": "",
   "scripts": {
     "build-native": "cd native && mvn clean install -Ddir=lib",
-    "build-react": "babel src/ --out-dir dist/ --plugins=@babel/plugin-transform-react-jsx",
+    "build-react": "babel src/ --out-dir dist/ --plugins=@babel/plugin-transform-react-jsx,@babel/plugin-transform-modules-commonjs",
     "dev": "pnpm build-react && node dist/index.js"
   },
   "keywords": [],
@@ -21,6 +21,7 @@
   "devDependencies": {
     "@babel/cli": "^7.28.6",
     "@babel/core": "^7.29.0",
+    "@babel/plugin-transform-modules-commonjs": "^7.28.6",
     "@babel/plugin-transform-react-jsx": "^7.28.6",
     "@types/node": "^25.5.2",
     "@types/react-reconciler": "^0.33.0"
