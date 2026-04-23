@@ -1,7 +1,7 @@
 import React from "react";
 
 function App() {
-  return <div>Hello World</div>
+  return <rect x={0} y={0} w={100} h={100}/>
 }
 
 export default App;

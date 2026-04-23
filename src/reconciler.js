@@ -1,6 +1,22 @@
 import Reconciler from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants";
 
+let appInstance = null;
+
+export function setAppInstance(instance) {
+  if(!appInstance) {
+    appInstance = instance;
+  }
+
+  return appInstance;
+}
+
+class RectElement {
+  constructor() {
+    // appInstance.createElement("rect")
+  }
+}
+
 const Config = {
   supportsMutation: true,
   isPrimaryRenderer: true,
@@ -28,8 +44,15 @@ const Config = {
   clearContainer(...args) {
     console.log("clearContainer ", args);
   },
-  resetAfterCommit(...args) {
-    console.log("resetAfterCommit ", args);
+  resetAfterCommit(container) {
+    if (!appInstance) return;
+    //for (const child of container.children) {
+    //  if (child.type === 'rect') {
+    //    const { x, y, w, h } = child.props;
+    //    appInstance.queueRect(x, y, w, h);
+    //  }
+    // }
+    // appInstance.commitScene();
   },
   getChildHostContext()            { return {}; },
   shouldSetTextContent()           { return false; },
@@ -39,6 +62,9 @@ const Config = {
   },
   createInstance(type, props) {
     console.log("createInstance", type);
+    if(type === 'rect') {
+      return new RectElement();
+    }
     return { type, props, children: [] };
   },
   appendInitialChild(parent, child) {
@@ -47,7 +73,11 @@ const Config = {
   },
   appendChild(parent, child)                    { parent.children.push(child); },
   appendChildToContainer(container, child) {
-    console.log("appendChildToContainer", child);
+    console.log("appendChildToContainer", container, child);
+    if(!Object.hasOwnProperty(container, 'children')) {
+      container.children = [];
+    }
+    container.children.push(child);
   },
   removeChild(parent, child)                    { parent.children = parent.children.filter(c => c !== child); },
   removeChildFromContainer(container, child)    {},

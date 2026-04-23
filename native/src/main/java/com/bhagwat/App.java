@@ -1,35 +1,45 @@
 package com.bhagwat;
 
-import static com.raylib.Colors.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.concurrent.ConcurrentLinkedQueue;
+
+import static com.raylib.Colors.BLACK;
+import static com.raylib.Colors.VIOLET;
 import static com.raylib.Raylib.*;
 
-interface DrawCallback {
-  void draw();
-}
-
 public class App {
+  private static final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
 
-  public void init(String windowName) {
-    InitWindow(800, 450, windowName);
+  public static void main(String[] args) {
+    new Thread(() -> {
+      try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          queue.add(line);
+        }
+      } catch (IOException e) {
+          e.printStackTrace();
+      }
+    }).start();
+
+    InitWindow(800, 450, "Hello World");
     SetTargetFPS(60);
 
-    run(() -> {
-      DrawRectangle(0, 0, 100, 100, VIOLET);
-    });
-  }
+    while (!WindowShouldClose()) {
+      while (!queue.isEmpty()) {
+        System.out.println("Current queue item: " + queue.poll());
+      }
 
-  public void run(DrawCallback drawCallback) {
-    while(!WindowShouldClose()) {
       BeginDrawing();
       ClearBackground(BLACK);
-      drawCallback.draw();
+      DrawRectangle(0, 0, 100, 100, VIOLET);
       EndDrawing();
     }
 
-    close();
-  }
-
-  public void close() {
+    System.out.println("{\"type\":\"WINDOW_CLOSED\"}");
+    System.out.flush();
     CloseWindow();
   }
 }
