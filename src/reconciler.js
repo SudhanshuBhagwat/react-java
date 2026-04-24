@@ -50,7 +50,7 @@ const Config = {
   createInstance(type, props) {
     console.log("createInstance", type);
     if(type === 'rect') {
-      return new RectElement(eventBridge);
+      return new RectElement(eventBridge, props);
     }
     return { type, props, children: [] };
   },

@@ -11,6 +11,7 @@ class EventBridge {
 
       this.java.stdout.on("data", (data) => {
         try {
+          console.log(data.toString());
           const parsedData = JSON.parse(data);
           switch(parsedData.type) {
             case "WINDOW_CLOSED":

@@ -27,7 +27,7 @@ import static com.raylib.Raylib.*;
 public class App {
   private static final Logger logger = LoggerFactory.getLogger(App.class);
   private static final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
-  private static final ConcurrentHashMap<String, Map<String, String>> objects = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, Element> objects = new ConcurrentHashMap<>();
   static ObjectMapper objectMapper;
 
   public App() {
@@ -77,11 +77,9 @@ public class App {
   public static void parseCommand(String message) {
       try {
           Event event = objectMapper.readValue(message, Event.class);
-          switch (event.getType()) {
+          switch (event.getEvent()) {
             case "CREATE_RECT":
-              objects.put(String.valueOf(UUID.randomUUID()), new HashMap<>(){{
-                put("type", "rect");
-              }});
+              objects.put(String.valueOf(UUID.randomUUID()), event.getElement());
               break;
             default:
               break;
@@ -93,10 +91,11 @@ public class App {
 
   public static void renderObjects() {
     objects.forEach((key, item) -> {
-      String type = item.get("type");
+      String type = item.getType();
+      logger.info(String.valueOf(item.getProps()));
       switch (type) {
         case "rect":
-          DrawRectangle(0, 0, 100, 100, VIOLET);
+          DrawRectangle(Integer.parseInt(item.getProps().get("x")), Integer.parseInt(item.getProps().get("y")), Integer.parseInt(item.getProps().get("w")), Integer.parseInt(item.getProps().get("h")), VIOLET);
           break;
         default:
           break;
@@ -110,5 +109,15 @@ public class App {
 @AllArgsConstructor
 @Getter
 class Event {
+  private String event;
+  private Element element;
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+class Element {
   private String type;
+  private Map<String, String> props;
 }

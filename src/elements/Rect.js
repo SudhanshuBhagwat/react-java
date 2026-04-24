@@ -1,8 +1,14 @@
 class RectElement {
-  constructor(eventBridge) {
+  constructor(eventBridge, props) {
     this.eventBridge = eventBridge;
+    this.props;
+
     this.eventBridge.sendMessage(JSON.stringify({
-      type: "CREATE_RECT"
+      event: "CREATE_RECT",
+      element: {
+        type: "rect",
+        props
+      }
     }))
   }
 }
