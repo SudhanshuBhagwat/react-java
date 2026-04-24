@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build-native": "cd native && mvn clean install -Ddir=lib",
+    "build-native": "cd native && mvn clean install && copy target\\react-java-1.0-SNAPSHOT.jar ..\\bin",
     "build-react": "babel src/ --out-dir dist/ --plugins=@babel/plugin-transform-react-jsx,@babel/plugin-transform-modules-commonjs",
-    "dev": "pnpm build-react && node dist/index.js"
+    "dev": "pnpm build-react && node dist/App.js"
   },
   "keywords": [],
   "author": "",
