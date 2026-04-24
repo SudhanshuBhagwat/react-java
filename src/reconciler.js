@@ -1,5 +1,6 @@
 import Reconciler from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants";
+import RectElement from "./elements/Rect"
 
 let eventBridge = null;
 
@@ -9,14 +10,6 @@ export function setEventBridge(instance) {
   }
 
   return eventBridge;
-}
-
-class RectElement {
-  constructor() {
-    eventBridge.sendMessage(JSON.stringify({
-      type: "CREATE_RECT"
-    }))
-  }
 }
 
 const Config = {
@@ -57,7 +50,7 @@ const Config = {
   createInstance(type, props) {
     console.log("createInstance", type);
     if(type === 'rect') {
-      return new RectElement();
+      return new RectElement(eventBridge);
     }
     return { type, props, children: [] };
   },

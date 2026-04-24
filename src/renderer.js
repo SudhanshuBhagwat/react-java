@@ -11,9 +11,7 @@ class EventBridge {
 
       this.java.stdout.on("data", (data) => {
         try {
-          console.log(data.toString())
           const parsedData = JSON.parse(data);
-          console.log({ parsedData });
           switch(parsedData.type) {
             case "WINDOW_CLOSED":
               process.exit(0);
@@ -31,7 +29,6 @@ class EventBridge {
   }
 
   sendMessage(message) {
-    console.log({ sndMessage: message })
     this.java.stdin.write(message + "\n");
   }
 }

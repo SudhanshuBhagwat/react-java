@@ -40,10 +40,8 @@ public class App {
   public void run() {
     new Thread(() -> {
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
-        System.out.println("Input thread started");
         String line;
         while ((line = reader.readLine()) != null) {
-          System.out.println("From Java" + line);
           queue.add(line);
         }
       } catch (IOException e) {
@@ -57,7 +55,6 @@ public class App {
     while (!WindowShouldClose()) {
       while (!queue.isEmpty()) {
         String item = queue.poll();
-        System.out.println("Current queue item: " + item);
         parseCommand(Objects.requireNonNull(item));
       }
 
@@ -74,12 +71,9 @@ public class App {
 
   public static void parseCommand(String message) {
       try {
-          System.out.println("Trying to parse" + message);
           Event event = objectMapper.readValue(message, Event.class);
-          System.out.println(event.getType());
           switch (event.getType()) {
             case "CREATE_RECT":
-              System.out.println("CREATING RECT");
               objects.put(String.valueOf(UUID.randomUUID()), new HashMap<>(){{
                 put("type", "rect");
               }});
