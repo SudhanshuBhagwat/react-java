@@ -60,7 +60,7 @@ const Config = {
   },
   appendChild(parent, child)                    { parent.children.push(child); },
   appendChildToContainer(container, child) {
-    console.log("appendChildToContainer", container, child);
+    console.log("appendChildToContainer", container);
     if(!Object.hasOwnProperty(container, 'children')) {
       container.children = [];
     }

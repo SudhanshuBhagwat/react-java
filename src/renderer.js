@@ -4,7 +4,8 @@ import { spawn } from "node:child_process";
 
 class EventBridge {
   constructor() {
-    const jarFilePath = path.join(__dirname, "..", "bin", "react-java-1.0-SNAPSHOT.jar");
+    const jarFilePath = path.join(__dirname, "..", "bin", "react-jaylib-1.0-SNAPSHOT.jar");
+    console.log(jarFilePath)
 
     try {
       this.java = spawn("java", ["-jar", jarFilePath]);
@@ -20,7 +21,7 @@ class EventBridge {
               break;
           }
         } catch (err) {
-
+          
         }
       });
     } catch (err) {

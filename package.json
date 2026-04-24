@@ -3,14 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "build-native": "cd native && mvn clean install && copy target\\react-java-1.0-SNAPSHOT.jar ..\\bin",
-    "build-react": "babel src/ --out-dir dist/ --plugins=@babel/plugin-transform-react-jsx,@babel/plugin-transform-modules-commonjs",
-    "dev": "pnpm build-react && node dist/App.js"
+    "build-native": "cd native && mvn clean install && copy target\\react-jaylib-1.0-SNAPSHOT.jar ..\\bin",
+    "build-react": "babel example/ --out-dir example/ --plugins=@babel/plugin-transform-react-jsx,@babel/plugin-transform-modules-commonjs",
+    "run-example": "pnpm build-react && node example/App.js",
+    "dev": "pnpm build && pnpm run-example",
+    "build": "node esbuild.cjs"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "esbuild": "^0.28.0",
     "java": "^0.18.0",
     "java-bridge": "^2.8.1",
     "react": "^19.2.5",

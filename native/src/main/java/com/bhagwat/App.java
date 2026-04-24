@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -95,7 +94,13 @@ public class App {
       logger.info(String.valueOf(item.getProps()));
       switch (type) {
         case "rect":
-          DrawRectangle(Integer.parseInt(item.getProps().get("x")), Integer.parseInt(item.getProps().get("y")), Integer.parseInt(item.getProps().get("w")), Integer.parseInt(item.getProps().get("h")), VIOLET);
+          DrawRectangle(
+                  Integer.parseInt(item.getProps().get("x")),
+                  Integer.parseInt(item.getProps().get("y")),
+                  Integer.parseInt(item.getProps().get("w")),
+                  Integer.parseInt(item.getProps().get("h")),
+                  VIOLET
+          );
           break;
         default:
           break;
