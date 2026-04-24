@@ -53,6 +53,20 @@
           <version>1.18.46</version>
           <scope>compile</scope>
       </dependency>
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-api</artifactId>
+          <version>2.0.9</version> <!-- Check for latest version -->
+      </dependency>
+
+      <!-- 2. A Binding Implementation (Choose ONE) -->
+
+      <!-- Option A: Simple console logging -->
+      <dependency>
+          <groupId>org.slf4j</groupId>
+          <artifactId>slf4j-simple</artifactId>
+          <version>2.0.9</version>
+      </dependency>
     <!-- Optionally: parameterized tests support -->
   </dependencies>
 

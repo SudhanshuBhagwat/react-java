@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -23,6 +25,7 @@ import static com.raylib.Colors.VIOLET;
 import static com.raylib.Raylib.*;
 
 public class App {
+  private static final Logger logger = LoggerFactory.getLogger(App.class);
   private static final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
   private static final ConcurrentHashMap<String, Map<String, String>> objects = new ConcurrentHashMap<>();
   static ObjectMapper objectMapper;
@@ -33,12 +36,14 @@ public class App {
   }
 
   public static void main(String[] args) {
+    logger.info("Starting App...");
     App app = new App();
     app.run();
   }
 
   public void run() {
     new Thread(() -> {
+      logger.info("Starting Java event message thread...");
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
         String line;
         while ((line = reader.readLine()) != null) {
