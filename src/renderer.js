@@ -1,6 +1,7 @@
 import { JReconciler, setEventBridge} from "./reconciler";
 import path from "path";
 import { spawn } from "node:child_process";
+console.log(require.resolve("react"))
 
 class EventBridge {
   constructor() {
@@ -9,6 +10,10 @@ class EventBridge {
 
     try {
       this.java = spawn("java", ["-jar", jarFilePath]);
+
+      this.java.stderr.on("data", (data) => {
+        process.stderr.write("[java] " + data.toString());
+      });
 
       this.java.stdout.on("data", (data) => {
         try {

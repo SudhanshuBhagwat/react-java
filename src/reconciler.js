@@ -17,11 +17,8 @@ const Config = {
   isPrimaryRenderer: true,
   supportsPersistence: false,
   supportsHydration: false,
-  trackSchedulerEvent(...args) {
-    console.log("trackSchedulerEvent ", args);
-  },
-  resolveUpdatePriority(...args) {
-    console.log("resolveUpdatePriority ", args);
+  trackSchedulerEvent() {},
+  resolveUpdatePriority() {
     return DefaultEventPriority;
   },
   resolveEventTimeStamp() {
@@ -36,9 +33,7 @@ const Config = {
   bindToConsole(methodName, args, badgeName) {
     return console[methodName].bind(console, ...args);
   },
-  clearContainer(...args) {
-    console.log("clearContainer ", args);
-  },
+  clearContainer() {},
   resetAfterCommit(container) {
   },
   getChildHostContext()            { return {}; },
@@ -71,8 +66,30 @@ const Config = {
   insertBefore(parent, child, before)           { parent.children.splice(parent.children.indexOf(before), 0, child); },
   insertInContainerBefore(container, child, before) {},
   finalizeInitialChildren()        { return false; },
-  detachDeletedInstance(...args) {
-    console.log("detachDeletedInstance ", args);
+  commitUpdate(instance, type, oldProps, newProps) {
+    if (instance.eventBridge) {
+      instance.eventBridge.sendMessage(JSON.stringify({
+        event: "UPDATE_RECT",
+        id: instance.id,
+        element: { type, props: newProps }
+      }));
+    } else {
+      instance.props = newProps;
+    }
+  },
+  detachDeletedInstance() {},
+  prepareUpdate(instance, type, oldProps, newProps) {
+    const keys = new Set([...Object.keys(oldProps), ...Object.keys(newProps)]);
+    const payload = {};
+    let hasChange = false;
+    for (const key of keys) {
+      if (key === 'children') continue;
+      if (oldProps[key] !== newProps[key]) {
+        payload[key] = newProps[key];
+        hasChange = true;
+      }
+    }
+    return hasChange ? payload : null;
   },
 };
 

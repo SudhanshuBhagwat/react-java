@@ -22,6 +22,7 @@ const config = {
   outfile: 'dist/bundle.js',
   target: 'es2018',
   platform: 'node',
+  external: ['react', 'react-reconciler'],
   loader: {
     '.jsx': 'jsx',
     '.tsx': 'tsx',

@@ -78,7 +78,10 @@ public class App {
           Event event = objectMapper.readValue(message, Event.class);
           switch (event.getEvent()) {
             case "CREATE_RECT":
-              objects.put(String.valueOf(UUID.randomUUID()), event.getElement());
+              objects.put(event.getId(), event.getElement());
+              break;
+            case "UPDATE_RECT":
+              objects.put(event.getId(), event.getElement());
               break;
             default:
               break;
@@ -91,14 +94,13 @@ public class App {
   public static void renderObjects() {
     objects.forEach((key, item) -> {
       String type = item.getType();
-      logger.info(String.valueOf(item.getProps()));
       switch (type) {
         case "rect":
           DrawRectangle(
-                  Integer.parseInt(item.getProps().get("x")),
-                  Integer.parseInt(item.getProps().get("y")),
-                  Integer.parseInt(item.getProps().get("w")),
-                  Integer.parseInt(item.getProps().get("h")),
+                  ((Number) item.getProps().get("x")).intValue(),
+                  ((Number) item.getProps().get("y")).intValue(),
+                  ((Number) item.getProps().get("w")).intValue(),
+                  ((Number) item.getProps().get("h")).intValue(),
                   VIOLET
           );
           break;
@@ -115,6 +117,7 @@ public class App {
 @Getter
 class Event {
   private String event;
+  private String id;
   private Element element;
 }
 
@@ -124,5 +127,5 @@ class Event {
 @Getter
 class Element {
   private String type;
-  private Map<String, String> props;
+  private Map<String, Object> props;
 }
