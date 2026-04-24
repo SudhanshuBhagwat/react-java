@@ -1,8 +1,21 @@
 package com.bhagwat;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import static com.raylib.Colors.BLACK;
@@ -11,16 +24,30 @@ import static com.raylib.Raylib.*;
 
 public class App {
   private static final ConcurrentLinkedQueue<String> queue = new ConcurrentLinkedQueue<>();
+  private static final ConcurrentHashMap<String, Map<String, String>> objects = new ConcurrentHashMap<>();
+  static ObjectMapper objectMapper;
+
+  public App() {
+    objectMapper = new ObjectMapper();
+    objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT, true);
+  }
 
   public static void main(String[] args) {
+    App app = new App();
+    app.run();
+  }
+
+  public void run() {
     new Thread(() -> {
       try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+        System.out.println("Input thread started");
         String line;
         while ((line = reader.readLine()) != null) {
+          System.out.println("From Java" + line);
           queue.add(line);
         }
       } catch (IOException e) {
-          e.printStackTrace();
+        e.printStackTrace();
       }
     }).start();
 
@@ -29,12 +56,14 @@ public class App {
 
     while (!WindowShouldClose()) {
       while (!queue.isEmpty()) {
-        System.out.println("Current queue item: " + queue.poll());
+        String item = queue.poll();
+        System.out.println("Current queue item: " + item);
+        parseCommand(Objects.requireNonNull(item));
       }
 
       BeginDrawing();
       ClearBackground(BLACK);
-      DrawRectangle(0, 0, 100, 100, VIOLET);
+      renderObjects();
       EndDrawing();
     }
 
@@ -42,4 +71,45 @@ public class App {
     System.out.flush();
     CloseWindow();
   }
+
+  public static void parseCommand(String message) {
+      try {
+          System.out.println("Trying to parse" + message);
+          Event event = objectMapper.readValue(message, Event.class);
+          System.out.println(event.getType());
+          switch (event.getType()) {
+            case "CREATE_RECT":
+              System.out.println("CREATING RECT");
+              objects.put(String.valueOf(UUID.randomUUID()), new HashMap<>(){{
+                put("type", "rect");
+              }});
+              break;
+            default:
+              break;
+          }
+      } catch (JsonProcessingException e) {
+          throw new RuntimeException(e);
+      }
+  }
+
+  public static void renderObjects() {
+    objects.forEach((key, item) -> {
+      String type = item.get("type");
+      switch (type) {
+        case "rect":
+          DrawRectangle(0, 0, 100, 100, VIOLET);
+          break;
+        default:
+          break;
+      }
+    });
+  }
+}
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+class Event {
+  private String type;
 }

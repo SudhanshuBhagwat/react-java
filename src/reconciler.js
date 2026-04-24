@@ -1,19 +1,21 @@
 import Reconciler from "react-reconciler";
 import { DefaultEventPriority } from "react-reconciler/constants";
 
-let appInstance = null;
+let eventBridge = null;
 
-export function setAppInstance(instance) {
-  if(!appInstance) {
-    appInstance = instance;
+export function setEventBridge(instance) {
+  if(!eventBridge) {
+    eventBridge = instance;
   }
 
-  return appInstance;
+  return eventBridge;
 }
 
 class RectElement {
   constructor() {
-    // appInstance.createElement("rect")
+    eventBridge.sendMessage(JSON.stringify({
+      type: "CREATE_RECT"
+    }))
   }
 }
 
@@ -45,14 +47,6 @@ const Config = {
     console.log("clearContainer ", args);
   },
   resetAfterCommit(container) {
-    if (!appInstance) return;
-    //for (const child of container.children) {
-    //  if (child.type === 'rect') {
-    //    const { x, y, w, h } = child.props;
-    //    appInstance.queueRect(x, y, w, h);
-    //  }
-    // }
-    // appInstance.commitScene();
   },
   getChildHostContext()            { return {}; },
   shouldSetTextContent()           { return false; },
